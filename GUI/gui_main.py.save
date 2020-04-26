@@ -224,9 +224,9 @@ def Result_Page():
     window.geometry('400x200')      #Window size
         
     #Print Results from text file
-    result = open("/home/pi/Desktop/fyp/project/GUI/Panadol_results/Panadol_result.txt", "r")
-    a = result.read()
-    Results_label = Label(window, text=a, font=("Arial Bold", 10))
+    result = open("result.txt", "r")
+    a = result.read(/home/pi/Desktop/fyp/project/GUI/Panadol_results)
+    Results_label = Label(window, text="haha", font=("Arial Bold", 10))
     Results_label.place(x=0, y=50)
     #Return Home Button
     Return_Home_button = Button(window, text = "Return Home", command = Return_Home)
