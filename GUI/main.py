@@ -72,7 +72,6 @@ def About_page():
 #Task Descripton page
 def Task_description_page(): 
 
-    global task 
     if task == 1:
 
         title = "Panadol"
@@ -114,7 +113,6 @@ def Task_description_page():
 
 #Tutorial page
 def Tutorial_Page():
-    global task
 
     if task == 1:
 
@@ -168,7 +166,6 @@ def Tutorial_Page():
 
 #Browse File page
 def Browse_File_Page():
-    global task
 
     #Title
     title = Label(window, text="Select File", font=("Arial Bold", 15))
@@ -211,20 +208,22 @@ def Result_Page():
     if task == 1:
         title = "Panadol"
         file = "DPV"
+        result = open("/home/pi/Desktop/fyp/project/GUI/ML_results/Panadol_results/Panadol_result.txt", "r")
 
     elif task == 2:
         title = "Dengue"
         file = "EIS"
+        result = open("/home/pi/Desktop/fyp/project/GUI/ML_results/Dengue_results/Dengue_result.txt", "r")
 
     elif task == 3:
         title = "Disease"
         file = "EIS"
+        result = open("/home/pi/Desktop/fyp/project/GUI/ML_results/Disease_results/Disease_result.txt", "r")
     window.title("FYP - {} Result".format(title))
     #Window size
     window.geometry('400x400')      #Window size
 
     #Print Results from text file
-    result = open("/home/pi/Desktop/fyp/project/GUI/ML_results/Panadol_results/Panadol_result.txt", "r")
     a = result.read()
     Results_label = Label(window, text=a, font=("Arial Bold", 10), wraplength = 350)
     Results_label.place(x=0, y=50)
@@ -362,8 +361,8 @@ def Run_ML():
         #os.system('%s %s %s' % ('python', '/home/pi/Desktop/fyp/project/dengue_detection/demo_svm.py', input_filename))  #for SVM
         1
     elif task == 3:
-        os.system('%s %s %s' % ('python', 'demo.py', input_filename))
-        #os.system('%s %s %s' % ('python', 'demo.py', input_filename))  #for SVM
+        os.system('%s %s %s' % ('python', '/home/pi/Desktop/fyp/project/multi_disease_detection/demo_ann.py', input_filename))
+        #os.system('%s %s %s' % ('python', '/home/pi/Desktop/fyp/project/multi_disease_detection/demo_svm.py', input_filename))  #for SVM
 
     widget_list = all_children(window)
     for item in widget_list:
@@ -373,7 +372,15 @@ def Run_ML():
 
 def Save_Result():
 
-    f = open("/home/pi/Desktop/fyp/project/GUI/Saved_results/Panadol/saved_result.txt", "a+")
+    if task == 1:
+        f = open("/home/pi/Desktop/fyp/project/GUI/Saved_results/Panadol/saved_result.txt", "a+")
+
+    elif task == 2:
+        f = open("/home/pi/Desktop/fyp/project/GUI/Saved_results/Dengue/saved_result.txt", "a+")
+
+    elif task == 3:
+        f = open("/home/pi/Desktop/fyp/project/GUI/Saved_results/Disease/saved_result.txt", "a+")
+
     f.write("\n")
     f.write(saved_result)
     f.write("\n")

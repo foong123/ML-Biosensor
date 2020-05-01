@@ -6,12 +6,12 @@ import torch
 import torch.nn.functional as F
 import seaborn as sn
 import sys
-from datetime import datetime
 
 # Import tensor dataset & data loader
 from torch.utils.data import TensorDataset, DataLoader
 from sklearn.preprocessing import StandardScaler 
 from sklearn.model_selection import train_test_split
+from datetime import datetime
 
 train = pd.read_csv("/home/pi/Desktop/fyp/project/dataset/dengue/train_EIS_dengue.csv")
 test = pd.read_csv("{}".format(str(sys.argv[1])))
@@ -84,7 +84,7 @@ dataTimeObj = datetime.now()
 timestampStr = dataTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%d)")
 
 f = open("/home/pi/Desktop/fyp/project/GUI/ML_results/Dengue_results/Dengue_result.txt", "w+")
-f.write("Concentration of Panadol detected is: {}".format(result))
+f.write("Test results: {}".format(result))
 f.write("\n")
-f.write("Current Time : {}".format(timestampStr))
+f.write("Check Time : {}".format(timestampStr))
 f.close()
