@@ -224,7 +224,7 @@ def Result_Page():
     window.geometry('400x200')      #Window size
         
     #Print Results from text file
-    result = open("/home/pi/Desktop/fyp/project/GUI/Panadol_results/Panadol_result.txt", "r")
+    result = open("/home/pi/Desktop/fyp/project/GUI/ML_results/Panadol_results/Panadol_result.txt", "r")
     a = result.read()
     Results_label = Label(window, text=a, font=("Arial Bold", 10))
     Results_label.place(x=0, y=50)
@@ -383,7 +383,7 @@ def Disease_Check_button_clicked():
 
 def Save_Result():
 
-    f = open("/home/pi/Desktop/fyp/project/GUI/Panadol_saved_results/saved_result.txt", "a+")
+    f = open("/home/pi/Desktop/fyp/project/GUI/Saved_results/Panadol/saved_result.txt", "a+")
     f.write(saved_result)
     f.write("\n")
 

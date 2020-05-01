@@ -14,6 +14,7 @@ from torch.utils.data import TensorDataset, DataLoader
 from sklearn.metrics import r2_score,mean_squared_error,mean_absolute_error
 from sklearn.preprocessing import StandardScaler
 from torch.autograd import Variable
+from datetime import datetime
 
 train = pd.read_csv("/home/pi/Desktop/fyp/project/dataset/DPV/train_dpv.csv")
 test = pd.read_csv("{}".format(str(sys.argv[1])))
@@ -64,41 +65,12 @@ model = torch.load("/home/pi/Desktop/fyp/project/panadol_prediction/regression_m
 y_pred = model(X_test)
 y_pred = y_pred.detach().numpy()
 
-f = open("/home/pi/Desktop/fyp/project/GUI/Panadol_results/Panadol_result.txt", "w+")
+#Current timestamp
+dataTimeObj = datetime.now()
+timestampStr = dataTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%d)")
+
+f = open("/home/pi/Desktop/fyp/project/GUI/ML_results/Panadol_results/Panadol_result.txt", "w+")
 f.write("Concentration of Panadol detected is: {}".format(y_pred))
 f.write("\n")
+f.write("Current Time : {}".format(timestampStr))
 f.close()
-
-#y_pred = [y_pred[x].item() for x in range(len(y_pred))]
-#y_test = [y_test[x].item() for x in range(len(y_test))]
-
-# Comparing Actual and predicted values
-#df = {}
-#df['Actual Concentration'] = y_test
-#df['Predicted Concentration'] = y_pred
-#df = pd.DataFrame(df)
-#print(df)
-
-#percent_error = 0.0
-
-#for i in range(len(y_pred)):
-
-#    a = float(y_pred[i])
-#    b = float(y_test[i])
-#    c = abs(a-b)/b *100.0
-#    percent_error = c + percent_error
-      
-#percent_error = percent_error/len(y_pred)
-
-#print('percent_error: ', percent_error)
-#print('R2: ', r2_score(y_pred = y_pred, y_true = y_test))
-#print('mean squared error: ', mean_squared_error(y_pred = y_pred, y_true = y_test))
-#print('mean absolute error: ', mean_absolute_error(y_pred = y_pred, y_true = y_test))
-
-#Visualizing Actual and predicted values
-#plt.plot(y_test, color = 'red', label = 'Real data')
-#plt.plot(y_pred, color = 'blue', label = 'Predicted data')
-#plt.title(percent_error)
-#plt.legend()
-#plt.grid()
-#plt.show()
