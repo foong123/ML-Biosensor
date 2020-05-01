@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 from datetime import datetime
 
 # Load csv data
-train = pd.read_csv("/home/pi/Desktop/fyp/project/dataset/EIS/train_disease_EIS.csv")
+train = pd.read_csv("/home/pi/Desktop/fyp/project/dataset/multi-disease/train_multiclass_disease_EIS.csv")
 test = pd.read_csv("{}".format(str(sys.argv[1])))
 
 X_train = train.drop('ID', axis=1).drop('label', axis=1).values

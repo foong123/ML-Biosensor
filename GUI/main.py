@@ -353,16 +353,16 @@ def fileDialog():
 def Run_ML():
 
     if task == 1:
-        os.system('%s %s %s' % ('python', '/home/pi/Desktop/fyp/project/panadol_prediction/demo_ann.py', input_filename))
-        #os.system('%s %s %s' % ('python', '/home/pi/Desktop/fyp/project/panadol_prediction/demo_svm.py', input_filename))  #for SVM
+        os.system('%s %s %s' % ('python3', '/home/pi/Desktop/fyp/project/panadol_prediction/demo_ann.py', input_filename))
+        #os.system('%s %s %s' % ('python3', '/home/pi/Desktop/fyp/project/panadol_prediction/demo_svm.py', input_filename))  #for SVM
 
     elif task == 2:
-        os.system('%s %s %s' % ('python', '/home/pi/Desktop/fyp/project/dengue_detection/demo_ann.py', input_filename))
-        #os.system('%s %s %s' % ('python', '/home/pi/Desktop/fyp/project/dengue_detection/demo_svm.py', input_filename))  #for SVM
+        os.system('%s %s %s' % ('python3', '/home/pi/Desktop/fyp/project/dengue_detection/demo_ann.py', input_filename))
+        #os.system('%s %s %s' % ('python3', '/home/pi/Desktop/fyp/project/dengue_detection/demo_svm.py', input_filename))  #for SVM
         1
     elif task == 3:
-        os.system('%s %s %s' % ('python', '/home/pi/Desktop/fyp/project/multi_disease_detection/demo_ann.py', input_filename))
-        #os.system('%s %s %s' % ('python', '/home/pi/Desktop/fyp/project/multi_disease_detection/demo_svm.py', input_filename))  #for SVM
+        os.system('%s %s %s' % ('python3', '/home/pi/Desktop/fyp/project/multi_disease_detection/demo_ann.py', input_filename))
+        #os.system('%s %s %s' % ('python3', '/home/pi/Desktop/fyp/project/multi_disease_detection/demo_svm.py', input_filename))  #for SVM
 
     widget_list = all_children(window)
     for item in widget_list:

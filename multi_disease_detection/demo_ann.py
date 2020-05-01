@@ -15,7 +15,7 @@ from sklearn.metrics import classification_report, confusion_matrix,plot_confusi
 from datetime import datetime
 
 # Load csv data
-train = pd.read_csv("/home/pi/Desktop/fyp/project/dataset/EIS/train_disease_EIS.csv")
+train = pd.read_csv("/home/pi/Desktop/fyp/project/dataset/multi-disease/train_multiclass_disease_EIS.csv")
 test = pd.read_csv("{}".format(str(sys.argv[1])))
 
 # Seperating Predictors and Outcome values from train and test sets
