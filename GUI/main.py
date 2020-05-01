@@ -215,32 +215,33 @@ def Result_Page():
     elif task == 2:
         title = "Dengue"
         file = "EIS"
-    
+
     elif task == 3:
         title = "Disease"
         file = "EIS"
     window.title("FYP - {} Result".format(title))
     #Window size
-    window.geometry('400x200')      #Window size
-        
+    window.geometry('400x400')      #Window size
+
     #Print Results from text file
     result = open("/home/pi/Desktop/fyp/project/GUI/ML_results/Panadol_results/Panadol_result.txt", "r")
     a = result.read()
-    Results_label = Label(window, text=a, font=("Arial Bold", 10))
+    Results_label = Label(window, text=a, font=("Arial Bold", 10), wraplength = 350)
     Results_label.place(x=0, y=50)
     #Return Home Button
     Return_Home_button = Button(window, text = "Return Home", command = Return_Home)
-    Return_Home_button.place(x=0, y=100)
+    Return_Home_button.place(x=0, y=350)
 
     #Save Results Button
     Save_Results_button = Button(window, text = "Save Result", command = Save_Result)
-    Save_Results_button.place(x=150, y=100)
+    Save_Results_button.place(x=150, y=350)
 
     #Rerun Button
     Back_button = Button(window, text="Rerun", command = Start_button_clicked)
-    Back_button.place(x=300, y=100)
+    Back_button.place(x=300, y=350)
 
     saved_result = a
+
 #Buttons
 #Open About page
 def About_button_clicked():
@@ -281,7 +282,7 @@ def Disease_task():
     task = 3
     Task_description_page()
 
-#Return home 
+#Return home
 def Return_Home():
     global window
     widget_list = all_children(window)
@@ -322,7 +323,7 @@ def Start_button_clicked():
 #Open file dialog to select file
 def fileDialog():
 
-    global input_filename, task
+    global input_filename
     filename =  filedialog.askopenfilename(initialdir = currentDirectory,title = "Select file",filetypes = (("csv files","*.csv"),("all files","*.*")))
     #print(filename) #debug line
     text = 'Selected file: ' + filename
@@ -335,46 +336,35 @@ def fileDialog():
         #print(filename) #debug line
         #Back button
         if task == 1:
-            Check_btn = Button(window, text="Check", command = Panadol_Check_button_clicked)
+            Check_btn = Button(window, text="Check", command = Run_ML)
 
         elif task == 2:
-            Check_btn = Button(window, text="Check", command = Dengue_Check_button_clicked)   
-        
+            Check_btn = Button(window, text="Check", command = Run_ML)
+
         elif task == 3:
-            Check_btn = Button(window, text="Check", command = Disease_Check_button_clicked)
+            Check_btn = Button(window, text="Check", command = Run_ML)
 
         Check_btn.place(x=100, y=200)
-    else: 
+    else:
 
         Description_1 = Label(window, text="No selected file", font=("Arial Bold", 10))
         Description_1.place(x=0, y=140)
 
 #Run the checker and open result page
-def Panadol_Check_button_clicked():
+def Run_ML():
 
-    global window
-    os.system('%s %s %s' % ('python', 'demo.py', input_filename))
-    #os.system('python demo.py')
-    widget_list = all_children(window)
-    for item in widget_list:
-        item.destroy()
+    if task == 1:
+        os.system('%s %s %s' % ('python', '/home/pi/Desktop/fyp/project/panadol_prediction/demo_ann.py', input_filename))
+        #os.system('%s %s %s' % ('python', '/home/pi/Desktop/fyp/project/panadol_prediction/demo_svm.py', input_filename))  #for SVM
 
-    Result_Page()
+    elif task == 2:
+        os.system('%s %s %s' % ('python', '/home/pi/Desktop/fyp/project/dengue_detection/demo_ann.py', input_filename))
+        #os.system('%s %s %s' % ('python', '/home/pi/Desktop/fyp/project/dengue_detection/demo_svm.py', input_filename))  #for SVM
+        1
+    elif task == 3:
+        os.system('%s %s %s' % ('python', 'demo.py', input_filename))
+        #os.system('%s %s %s' % ('python', 'demo.py', input_filename))  #for SVM
 
-def Dengue_Check_button_clicked():
-    global window
-    #os.system('%s %s %s' % ('"C:/Program Files (x86)/Microsoft Visual Studio/Shared/Anaconda3_64/python.exe"', 'gui_try.py', input_filename))
-    os.system('python demo.py')
-    widget_list = all_children(window)
-    for item in widget_list:
-        item.destroy()
-
-    Result_Page()
-
-def Disease_Check_button_clicked():
-    global window
-    #os.system('%s %s %s' % ('"C:/Program Files (x86)/Microsoft Visual Studio/Shared/Anaconda3_64/python.exe"', 'gui_try.py', input_filename))
-    os.system('python demo.py')
     widget_list = all_children(window)
     for item in widget_list:
         item.destroy()
@@ -384,11 +374,12 @@ def Disease_Check_button_clicked():
 def Save_Result():
 
     f = open("/home/pi/Desktop/fyp/project/GUI/Saved_results/Panadol/saved_result.txt", "a+")
+    f.write("\n")
     f.write(saved_result)
     f.write("\n")
 
     Saved_text = Label(window, text="Saved", font=("Arial Bold", 10))
-    Saved_text.place(x=300, y=50)
+    Saved_text.place(x=150, y=300)
 
 Home_page()
 

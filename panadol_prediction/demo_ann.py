@@ -64,15 +64,20 @@ model = torch.load("/home/pi/Desktop/fyp/project/panadol_prediction/regression_m
 #Predicting for X_test
 y_pred = model(X_test)
 y_pred = y_pred.detach().numpy()
-y_pred = str(y_pred)[1:-1]   #Remove the first square bracket
-#print(y_pred)
+#print(y_pred[0,0])
+
+results = []
+for i in range(len(y_pred)):
+    results.append(y_pred[i,0])
+
+#print(results)
 
 #Current timestamp
 dataTimeObj = datetime.now()
 timestampStr = dataTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%d)")
 
 f = open("/home/pi/Desktop/fyp/project/GUI/ML_results/Panadol_results/Panadol_result.txt", "w+")
-f.write("Concentration of Panadol detected is: {}".format(str(y_pred)[1:-1]))
+f.write("Concentration of Panadol detected is: {}".format(results))
 f.write("\n")
 f.write("Check Time : {}".format(timestampStr))
 f.close()
