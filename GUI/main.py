@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import ttk
 import time
 import sys
+import tkinter as tk
 
 sys.path.insert(1, '/home/pi/Desktop/fyp/project/panadol_prediction/')
 sys.path.insert(1, '/home/pi/Desktop/fyp/project/dengue_detection/')
@@ -14,6 +15,7 @@ import os
 
 currentDirectory = os.getcwd()
 window = Tk()
+#window.iconphoto(False, tk.PhotoImage(file = '/home/pi/Desktop/fyp/project/GUI/GUI_images/biosensor_icon.png'))
 
 #Utilities functions
 def all_children(window):
@@ -74,7 +76,7 @@ def About_page():
 
 #Task Descripton page
 def Task_description_page(): 
-    
+
     global task 
     if task == 1:
 
