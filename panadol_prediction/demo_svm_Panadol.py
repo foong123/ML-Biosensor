@@ -2,20 +2,20 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
-import sys
 import threading
 from sklearn.preprocessing import StandardScaler
 from datetime import datetime
 
 class Thread3(threading.Thread):
-    def __init__(self, progress):
+    def __init__(self, progress, input_filename):
         threading.Thread.__init__(self)
         self.progress = progress
+        self.input_filename = input_filename
     def run(self):
         self.progress.start()  # Update progress bar
         # Load csv data
         train = pd.read_csv("/home/pi/Desktop/fyp/project/dataset/DPV/train_dpv.csv")
-        test = pd.read_csv("{}".format(str(sys.argv[1])))
+        test = pd.read_csv("{}".format(str(self.input_filename)))
 
         X_train = train.drop('ID', axis=1).drop('label', axis=1).values
         y_train = train["label"].values    #y values

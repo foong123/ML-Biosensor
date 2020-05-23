@@ -6,8 +6,8 @@ import sys
 
 sys.path.insert(1, '/home/pi/Desktop/fyp/project/panadol_prediction/')
 sys.path.insert(1, '/home/pi/Desktop/fyp/project/dengue_detection/')
-from demo_ann_Panadol import Thread1
-from demo_ann_Dengue import Thread2
+from demo_ann_Panadol import Thread1, Regression
+from demo_ann_Dengue import Thread2, NN_Model
 from demo_svm_Panadol import Thread3
 from demo_svm_Dengue import Thread4
 import os
@@ -74,7 +74,8 @@ def About_page():
 
 #Task Descripton page
 def Task_description_page(): 
-
+    
+    global task 
     if task == 1:
 
         title = "Panadol"
@@ -111,6 +112,8 @@ def Task_description_page():
 
 #Tutorial page
 def Tutorial_Page():
+
+    global task
 
     if task == 1:
 
@@ -159,6 +162,7 @@ def Tutorial_Page():
 #Browse File page
 def Browse_File_Page():
 
+    global task
     #Title
     title = Label(window, text="Select File", font=("Arial Bold", 15))
     title.place(x=0, y=10)  
@@ -192,11 +196,13 @@ def Result_Page():
 
     #Title
     title = Label(window, text="Result", font=("Arial Bold", 15))
-    title.place(x=0, y=10)  
+    title.place(x=0, y=10)
     if task == 1:
         title = "Panadol"
         file = "DPV"
+        print ("haha")
         result = open("/home/pi/Desktop/fyp/project/GUI/ML_results/Panadol_results/Panadol_result.txt", "r")
+        print ("hahaha")
 
     elif task == 2:
         title = "Dengue"
@@ -322,18 +328,19 @@ def fileDialog():
 
 #Run the checker and open result page
 def Run_ML():
+    global task,input_filename
     root = Tk()
     progcomp = ttk.Progressbar(root, orient='horizontal', length=200, mode = 'determinate', maximum=100)
     progcomp.grid()
     if task == 1:
-        task = Thread1(progcomp)
-        #task = Thread3(progcomp)    #for svm
-        task.start()
+        check = Thread1(progcomp,input_filename)
+        #check = Thread3(progcomp, input_filename)    #for svm
+        check.start()
 
     elif task == 2:
-        task = Thread2(progcomp)
-        #task = Thread4(progcomp)    #for svm
-        task.start()
+        check = Thread2(progcomp,input_filename)
+        #check = Thread4(progcomp,input_filaname)    #for svm
+        check.start()
 
     root.mainloop()
     root.destroy()

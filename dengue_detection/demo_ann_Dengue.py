@@ -4,22 +4,40 @@ import pandas as pd
 import torch.nn as nn
 import torch
 import torch.nn.functional as F
-import sys
 import threading
 
 # Import tensor dataset & data loader
 from sklearn.preprocessing import StandardScaler 
 from datetime import datetime
 
+# Define NN
+class NN_Model(nn.Module):
+    # Initialize the layers
+    def __init__(self,INPUT_DIM,H1,OUTPUT_DIM):
+        super(NN_Model,self).__init__()
+        self.input = nn.Linear(INPUT_DIM, H1)       # Adding the input layer and the first hidden layer
+        self.dropout1 = nn.Dropout(p=0.5)
+        #self.layer2 = nn.Linear(H1, H2)             # Adding the second hidden layer
+        self.output = nn.Linear(H1, OUTPUT_DIM)     # Adding the output layer
+
+    # Perform the computation
+    def forward(self, x):
+        x = F.relu(self.input(x))
+        x = self.dropout1(x)
+        #x = F.relu(self.layer2(x))
+        x = F.sigmoid(self.output(x))
+        return x
+
 class Thread2(threading.Thread):
-    def __init__(self, progress):
+    def __init__(self, progress, input_filename):
         threading.Thread.__init__(self)
         self.progress = progress
+        self.input_filename = input_filename
     def run(self):
         self.progress.start()  # Update progress bar
 
         train = pd.read_csv("/home/pi/Desktop/fyp/project/dataset/dengue/train_EIS_dengue.csv")
-        test = pd.read_csv("{}".format(str(sys.argv[1])))
+        test = pd.read_csv("{}".format(str(self.input_filename)))
 
         X_train = train.drop('ID', axis=1).drop('label', axis=1).values
         y_train = train["label"].values    #y values
@@ -47,24 +65,6 @@ class Thread2(threading.Thread):
         H1 = 20                         # hidden dimension #1
         OUTPUT_DIM = 1                  # output layer dimension
         lr = 1e-3                       # learning rate
-
-        # Define NN
-        class NN_Model(nn.Module):
-            # Initialize the layers
-            def __init__(self,INPUT_DIM,H1,OUTPUT_DIM):
-                super(NN_Model,self).__init__()
-                self.input = nn.Linear(INPUT_DIM, H1)       # Adding the input layer and the first hidden layer
-                self.dropout1 = nn.Dropout(p=0.5)
-                #self.layer2 = nn.Linear(H1, H2)             # Adding the second hidden layer
-                self.output = nn.Linear(H1, OUTPUT_DIM)     # Adding the output layer
-
-            # Perform the computation
-            def forward(self, x):
-                x = F.relu(self.input(x))
-                x = self.dropout1(x)
-                #x = F.relu(self.layer2(x))
-                x = F.sigmoid(self.output(x))
-                return x
 
         # Model class must be defined somewhere
         model = torch.load("/home/pi/Desktop/fyp/project/dengue_detection/classification_model.pth")
