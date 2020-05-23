@@ -28,7 +28,7 @@ def Home_page():
 
     window.title("FYP")
     #Window size
-    window.geometry('700x300')      #Window size
+    window.geometry('500x200')      #Window size
 
     #Title 
     Title = Label(window, text="Welcome!", font=("Arial Bold", 30))
@@ -36,19 +36,19 @@ def Home_page():
     Title.pack()
     #Panadol concentration estimation button
     Panadol_btn = Button(window, text="Panadol concentration estimation", command = Panadol_task)
-    Panadol_btn.place(x=10, y=150)
+    Panadol_btn.place(x=10, y=100)
 
     #Dengue detection button
     Dengue_btn = Button(window, text="Dengue detection", command = Dengue_task)
-    Dengue_btn.place(x=310, y=150)
+    Dengue_btn.place(x=310, y=100)
 
     #Multiple disease detection button
-    Multiple_disease_btn = Button(window, text="Multiple disease detection", command = Disease_task)
-    Multiple_disease_btn.place(x=510, y=150)
+    # Multiple_disease_btn = Button(window, text="Multiple disease detection", command = Disease_task)
+    # Multiple_disease_btn.place(x=510, y=150)
 
     #About button
     About_btn = Button(window, text="About", command = About_button_clicked)
-    About_btn.place(x=610, y=260)
+    About_btn.place(x=410, y=150)
 
 #About page
 def About_page():
@@ -90,7 +90,7 @@ def Task_description_page():
     #window = Tk()
     window.title("FYP - {}".format(title))
     #Window size
-    window.geometry('700x150')      #Window size
+    window.geometry('500x150')      #Window size
     #Description 
     Description_1 = Label(window, text=text,font=("Arial Bold", 12))
     Description_1.place(x=0, y=30)
@@ -109,7 +109,7 @@ def Task_description_page():
 
     #Back button
     Back_btn = Button(window, text="Back", command = Return_Home)
-    Back_btn.place(x=600, y=100)
+    Back_btn.place(x=400, y=100)
 
 #Tutorial page
 def Tutorial_Page():
