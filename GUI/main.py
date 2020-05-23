@@ -2,7 +2,14 @@ from tkinter import filedialog
 from tkinter import *
 from tkinter import ttk
 import time
-	
+import sys
+
+sys.path.insert(1, '/home/pi/Desktop/fyp/project/panadol_prediction/')
+sys.path.insert(1, '/home/pi/Desktop/fyp/project/dengue_detection/')
+from demo_ann_Panadol import Thread1
+from demo_ann_Dengue import Thread2
+from demo_svm_Panadol import Thread3
+from demo_svm_Dengue import Thread4
 import os
 
 currentDirectory = os.getcwd()
@@ -42,10 +49,6 @@ def Home_page():
     Dengue_btn = Button(window, text="Dengue detection", command = Dengue_task)
     Dengue_btn.place(x=310, y=100)
 
-    #Multiple disease detection button
-    # Multiple_disease_btn = Button(window, text="Multiple disease detection", command = Disease_task)
-    # Multiple_disease_btn.place(x=510, y=150)
-
     #About button
     About_btn = Button(window, text="About", command = About_button_clicked)
     About_btn.place(x=410, y=150)
@@ -81,11 +84,6 @@ def Task_description_page():
 
         title = "Dengue"
         text = "Welcome to Dengue Detector" 
-    
-    elif task == 3:
-
-        title = "Disease"
-        text = "Welcome to Disease Detector" 
 
     #window = Tk()
     window.title("FYP - {}".format(title))
@@ -123,12 +121,6 @@ def Tutorial_Page():
     elif task == 2:
 
         title = "Dengue"
-        file = "EIS"
-        file_dimension = "6"
-    
-    elif task == 3:
-
-        title = "Disease"
         file = "EIS"
         file_dimension = "6"
 
@@ -178,10 +170,6 @@ def Browse_File_Page():
         title = "Dengue"
         file = "EIS"
     
-    elif task == 3:
-        title = "Disease"
-        file = "EIS"
-    
     #Browse Button
     Browse_button = Button(window, text = "Browse A File", command = fileDialog)
     Browse_button.place(x=0, y=100)
@@ -215,10 +203,6 @@ def Result_Page():
         file = "EIS"
         result = open("/home/pi/Desktop/fyp/project/GUI/ML_results/Dengue_results/Dengue_result.txt", "r")
 
-    elif task == 3:
-        title = "Disease"
-        file = "EIS"
-        result = open("/home/pi/Desktop/fyp/project/GUI/ML_results/Disease_results/Disease_result.txt", "r")
     window.title("FYP - {} Result".format(title))
     #Window size
     window.geometry('400x400')      #Window size
@@ -269,16 +253,6 @@ def Dengue_task():
         item.destroy()
 
     task = 2
-    Task_description_page()
-
-#Open Disease task page
-def Disease_task():
-    global window, task
-    widget_list = all_children(window)
-    for item in widget_list:
-        item.destroy()
-
-    task = 3
     Task_description_page()
 
 #Return home
@@ -340,9 +314,6 @@ def fileDialog():
         elif task == 2:
             Check_btn = Button(window, text="Check", command = Run_ML)
 
-        elif task == 3:
-            Check_btn = Button(window, text="Check", command = Run_ML)
-
         Check_btn.place(x=100, y=200)
     else:
 
@@ -351,19 +322,21 @@ def fileDialog():
 
 #Run the checker and open result page
 def Run_ML():
-
+    root = Tk()
+    progcomp = ttk.Progressbar(root, orient='horizontal', length=200, mode = 'determinate', maximum=100)
+    progcomp.grid()
     if task == 1:
-        os.system('%s %s %s' % ('python3', '/home/pi/Desktop/fyp/project/panadol_prediction/demo_ann.py', input_filename))
-        #os.system('%s %s %s' % ('python3', '/home/pi/Desktop/fyp/project/panadol_prediction/demo_svm.py', input_filename))  #for SVM
+        task = Thread1(progcomp)
+        #task = Thread3(progcomp)    #for svm
+        task.start()
 
     elif task == 2:
-        os.system('%s %s %s' % ('python3', '/home/pi/Desktop/fyp/project/dengue_detection/demo_ann.py', input_filename))
-        #os.system('%s %s %s' % ('python3', '/home/pi/Desktop/fyp/project/dengue_detection/demo_svm.py', input_filename))  #for SVM
-        1
-    elif task == 3:
-        os.system('%s %s %s' % ('python3', '/home/pi/Desktop/fyp/project/multi_disease_detection/demo_ann.py', input_filename))
-        #os.system('%s %s %s' % ('python3', '/home/pi/Desktop/fyp/project/multi_disease_detection/demo_svm.py', input_filename))  #for SVM
+        task = Thread2(progcomp)
+        #task = Thread4(progcomp)    #for svm
+        task.start()
 
+    root.mainloop()
+    root.destroy()
     widget_list = all_children(window)
     for item in widget_list:
         item.destroy()
@@ -377,9 +350,6 @@ def Save_Result():
 
     elif task == 2:
         f = open("/home/pi/Desktop/fyp/project/GUI/Saved_results/Dengue/saved_result.txt", "a+")
-
-    elif task == 3:
-        f = open("/home/pi/Desktop/fyp/project/GUI/Saved_results/Disease/saved_result.txt", "a+")
 
     f.write("\n")
     f.write(saved_result)
