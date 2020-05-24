@@ -1,7 +1,9 @@
 import time
 import sys
 import os
-
+import PIL.Image
+import random
+import os
 sys.path.insert(1, '/home/pi/Desktop/fyp/project/panadol_prediction/')
 sys.path.insert(1, '/home/pi/Desktop/fyp/project/dengue_detection/')
 from demo_ann_Panadol import Thread1, Regression
@@ -10,13 +12,12 @@ from demo_svm_Panadol import Thread3
 from demo_svm_Dengue import Thread4
 from PIL import ImageTk, Image
 from tkinter import filedialog
-from tkinter import *
 from tkinter import ttk
-import os
+from tkinter import *
 
 currentDirectory = os.getcwd()
 window = Tk()
-#window.iconphoto(False, PhotoImage(file = '/home/pi/Desktop/fyp/project/GUI/GUI_images/biosensor_icon.png'))
+window.iconphoto(False, PhotoImage(file = '/home/pi/Desktop/fyp/project/GUI/GUI_Image/biosensor_icon.png'))
 
 #Utilities functions
 def all_children(window):
@@ -40,8 +41,8 @@ def Home_page():
     window.resizable(False, False)  # This code helps to disable windows from resizing
 
     #window size
-    window_height = 300
-    window_width = 700
+    window_height = 250
+    window_width = 460
     screen_width = window.winfo_screenwidth()
     screen_height = window.winfo_screenheight()
 
@@ -49,52 +50,58 @@ def Home_page():
     y_cordinate = int((screen_height/2) - (window_height/2))
 
     window.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
-    
+
     #window title
     window.title("FYP")
-    
-    #Logo
-    img = Image.open("D:/unmc degree/year 4/fyp/project_git/welcome_icon.png")
-    img = img.resize((170, 160), Image.ANTIALIAS)
+
+    #Random window background color
+    red = random.randint(0,255)
+    green = random.randint(0,255)
+    blue = random.randint(0,255)
+    color = '#{:02x}{:02x}{:02x}'.format(red,green,blue)
+    window.configure(bg = color)
+
+    #Welcome image
+    img = PIL.Image.open("/home/pi/Desktop/fyp/project/GUI/GUI_Image/welcome.png")
+    img = img.resize((170, 160), PIL.Image.ANTIALIAS)
     img = ImageTk.PhotoImage(img)
     panel = Label(window, image=img)
     panel.image = img
     panel.config(anchor = CENTER)
     panel.pack()
 
-
     #Panadol concentration estimation button
     Panadol_btn = Button(window, text="Panadol concentration estimation", command = Panadol_task)
-    Panadol_btn.place(x=10, y=100)
+    Panadol_btn.place(x=10, y=170)
 
     #Dengue detection button
     Dengue_btn = Button(window, text="Dengue detection", command = Dengue_task)
-    Dengue_btn.place(x=310, y=100)
+    Dengue_btn.place(x=310, y=170)
 
     #About button
     About_btn = Button(window, text="About", command = About_button_clicked)
-    About_btn.place(x=410, y=150)
+    About_btn.place(x=310, y=210)
 
 #About page
 def About_page():
-    
+
     window.title("FYP - About")
-    window.geometry("600x430")
+    window.geometry("550x430")
 
     #About_title
     About_title = Label(window, text="About", font=("Arial Bold", 20))
     About_title.config(anchor = CENTER)
     About_title.pack()
-    #Description 
-    About_Description = Label(window, 
+    #Description
+    About_Description = Label(window,
                             text="A simple GUI for ML based post analysis. This is part of the final year project.Created by Foong Pak Chuen, MEng. Electrical and Electronic Engineering Student",
                             font=("Arial Bold", 12),
                             wraplength=500)
     About_Description.place(x=0, y=50)
 
     #Logo
-    img = Image.open("D:/unmc degree/year 4/fyp/project_git/UNMC_logo.png")
-    img = img.resize((450, 250), Image.ANTIALIAS)
+    img = PIL.Image.open("/home/pi/Desktop/fyp/project/GUI/GUI_Image/UNMC_logo.png")
+    img = img.resize((450, 250), PIL.Image.ANTIALIAS)
     img = ImageTk.PhotoImage(img)
     panel = Label(window, image=img)
     panel.image = img
@@ -105,28 +112,28 @@ def About_page():
     Back_btn.place(x=0, y=10)
 
 #Task Descripton page
-def Task_description_page(): 
+def Task_description_page():
 
-    global task 
+    global task
     if task == 1:
 
         title = "Panadol"
-        text = "Welcome to Panadol Concentration Estimator" 
+        text = "Welcome to Panadol Concentration Estimator"
 
     elif task == 2:
 
         title = "Dengue"
-        text = "Welcome to Dengue Detector" 
+        text = "Welcome to Dengue Detector"
 
     #window = Tk()
     window.title("FYP - {}".format(title))
     window.geometry("500x130")
 
-    #Description 
+    #Description
     Description_1 = Label(window, text=text,font=("Arial Bold", 12))
     Description_1.place(x=0, y=30)
 
-    #Description 
+    #Description
     Description_1 = Label(window, text="Click on the tutorial to see how to use it",font=("Arial Bold", 12))
     Description_1.place(x=0, y=60)
 
@@ -165,7 +172,7 @@ def Tutorial_Page():
     title.pack()
 
     window.title("FYP - {} Detection - Tutorial".format(title))
-    window.geometry("700x250")    
+    window.geometry("700x250")
 
     Description_1 = Label(window, text="1) Click Start and insert the {} sensor file.".format(file), font=("Arial Bold", 10))
     Description_1.place(x=0, y=40)
@@ -195,7 +202,7 @@ def Browse_File_Page():
     global task
     #Title
     title = Label(window, text="Select File", font=("Arial Bold", 15))
-    title.place(x=0, y=10)  
+    title.place(x=0, y=10)
     if task == 1:
         title = "Panadol"
         file = "DPV"
@@ -226,13 +233,13 @@ def Result_Page():
 
     #Title
     title = Label(window, text="Result", font=("Arial Bold", 15))
-    title.place(x=0, y=10)
+    title.config(anchor = CENTER)
+    title.pack()
+
     if task == 1:
         title = "Panadol"
         file = "DPV"
-        print ("haha")
         result = open("/home/pi/Desktop/fyp/project/GUI/ML_results/Panadol_results/Panadol_result.txt", "r")
-        print ("hahaha")
 
     elif task == 2:
         title = "Dengue"
@@ -359,6 +366,18 @@ def fileDialog():
 def Run_ML():
     global task,input_filename
     root = Tk()
+    root.resizable(False, False)
+    window_height = 100
+    window_width  = 250
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    x_coordinate = int((screen_width/2) - (window_width/2))
+    y_coordinate = int((screen_height/2) -(window_height/2))
+
+    root.geometry("{}x{}+{}+{}".format(window_width,window_height,x_coordinate,y_coordinate))
+
+
+    root.title("Loading")
     progcomp = ttk.Progressbar(root, orient='horizontal', length=200, mode = 'determinate', maximum=100)
     progcomp.grid()
     if task == 1:
